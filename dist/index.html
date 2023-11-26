@@ -254,7 +254,9 @@
                 <div class="first_line_right_body3">
                     <div class="first_line_right_body3_left">
                         <p class="text_above_diagram">Website Traffic</p>
-
+                        <div class="donought_diagram">
+                            <canvas id='donought'></canvas>
+                        </div>
                         <svg class="footer_img_reload_in_diagram" xmlns="http://www.w3.org/2000/svg" width="16"
                             height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
@@ -271,8 +273,6 @@
                         <p class="bounce">Bounce</p>
                         <p class="visitors">Visitors</p>
                         <p class="registered">Registered</p>
-
-                        <div class="donought_diagram"> <canvas id='donought'></canvas></div>
 
 
                     </div>
@@ -420,22 +420,8 @@
         };
 
         let myChart = document.getElementById('donought').getContext('2d');
-        console.log(myChart)
 
-
-        new Chart(myChart, con);
-
-        const populateUl = () => {
-            chartData.labels.forEach((l, i) => {
-                let li = document.createElement("li");
-                li.innerHTML = `${l}: <span class='percentage'>${chartData.data[i]}%</span>`;
-                ul.appendChild(li);
-            });
-        };
-
-        populateUl();
-
-        console.log(myChart);
+        new Chart(myChart, config);
     </script>
 </body>
 
