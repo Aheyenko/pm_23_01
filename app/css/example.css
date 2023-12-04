@@ -520,6 +520,14 @@ float: right;    }
 
 
 /* Діаграма */
+.donought_diagram{
+  width: 300px;
+  height:300px;
+  position: relative;
+  bottom:0px;
+  left:30px ;
+}
+
 .text_above_diagram{
   font-size: 32px;
   font-family:  system-ui ;
@@ -536,7 +544,7 @@ float: right;    }
   transform: scale(1.7);
   margin-left: 515px;
   padding-bottom: 15px;
-  bottom:60px;
+  bottom:533px;
   clear: both;
   position: relative;
   box-sizing: content-box;
@@ -547,7 +555,7 @@ float: right;    }
   color:#78909c;
   text-align: center;
   position: relative;
-  top: 275px;
+  top: -177px;
   left:85px ;
   width: 430px;
   height: 200px;
@@ -558,7 +566,7 @@ float: right;    }
  background-color: #b39ddb;
  position:relative;
  left: 380px;
- bottom: 180px;
+ bottom: 650px;
 }
 .yellow{
   width: 14px;
@@ -566,7 +574,7 @@ float: right;    }
   background-color:#ffc400;
   position:relative;
   left: 380px;
-  bottom: 140px;
+  bottom: 600px;
 }
 .blue{
   width: 14px;
@@ -574,14 +582,14 @@ float: right;    }
   background-color: #38a4dd;
   position:relative;
   left: 380px;
-  bottom: 100px;
+  bottom: 550px;
 }
 .bounce{
   font-family: arial;
   font-size: 21px;
   color:#78909c;
   position: relative;
-  bottom: 247px;
+  bottom: 717px;
   left:400px ;
 }
 .visitors{
@@ -589,7 +597,7 @@ float: right;    }
   font-size: 21px;
   color:#78909c;
   position: relative;
-  bottom: 238px;
+  bottom: 699px;
   left:400px ;
 }
 .registered{
@@ -597,10 +605,26 @@ float: right;    }
   font-size: 21px;
   color:#78909c;
   position: relative;
-  bottom: 229px;
+  bottom: 680px;
   left:400px ;
 }
-
+.text1_in_diagram{
+  font-family: arial;
+  font-size: 19px;
+  color:#38a4dd;
+  position: relative;
+  bottom: 200px;
+  left:134px ;
+}
+.text2_in_diagram{
+  font-family: arial;
+  font-size: 40px;
+  font-weight: lighter;
+  color:#2f3b4c;
+  position: relative;
+  bottom: 230px;
+  left:134px ;
+}
 /* Блок з океаном */
 
 .okean{
@@ -771,4 +795,3 @@ float: right;    }
   bottom:-40px;
   left:0px ;
 }
-
