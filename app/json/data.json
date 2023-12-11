@@ -23,5 +23,18 @@
     "month": "JUN",
     "number1": 52
 }
+],
+"diagram":[{
+    "piece": "Bounce",
+    "number1": 50
+},
+{
+    "piece": "Visitors",
+    "number1": 20
+},
+{
+    "piece": "Registered",
+    "number1": 70
+}
 ]
 }

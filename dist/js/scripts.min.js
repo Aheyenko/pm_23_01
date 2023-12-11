@@ -1,47 +1,5 @@
 window.onload = function () {
-    // Doughnut Chart
-    const initialHoverOffset = 4;
 
-    const doughnutData = {
-        labels: [],
-        datasets: [{
-            label: [],
-            data: [300, 50, 100],
-            backgroundColor: [
-                '#ffc400',
-                '#38a4dd',
-                '#b39ddb'
-            ],
-            hoverOffset: initialHoverOffset
-        }]
-    };
-
-    const doughnutOptions = {
-        legend:{
-display:false,
-        },
-        onClick: function (event, elements) {
-            if (elements.length > 0) {
-                const clickedElement = elements[0];
-                const datasetIndex = clickedElement.datasetIndex;
-                const index = clickedElement.index;
-
-                // Move the clicked piece to the side (e.g., increase the hoverOffset)
-                doughnutConfig.data.datasets[datasetIndex].hoverOffset = 30;
-
-                // Redraw the chart
-                doughnutChart.update();
-            }
-        }
-    };
-
-    const doughnutConfig = {
-        type: 'doughnut',
-        data: doughnutData,
-        options: doughnutOptions
-    };
-
-    let doughnutChart = new Chart(document.getElementById('doughnutChart').getContext('2d'), doughnutConfig);
 
     // Area  Chart
  
@@ -229,18 +187,20 @@ display:false,
           const data = JSON.parse(this.responseText);
           const wavy_lables = data.wavy.map(function(index) {return index.month})
           const wavy_datas= data.wavy.map(function(index) {return index.number1})
+          const diagram_lables = data.diagram.map(function(index) {return index.piece})
+          const diagram_datas= data.diagram.map(function(index) {return index.number1})
         //   const label_month = data.datas3.map(function(index) {return index.month})
         //   const data_set1 = data.datas3.map(function(index) {return index.number1})
         //   const data_set2 = data.datas3.map(function(index) {return index.number2})
         //   const data_set3 = data.datas3.map(function(index) {return index.number3})
         
-          resolve([wavy_lables, wavy_datas]);
+          resolve([wavy_lables, wavy_datas,diagram_lables,diagram_datas]);
         }
       };
       xmlhttp.send();
     });
   };
-  fetchData().then(([wavy_lables, wavy_datas]) => {
+  fetchData().then(([wavy_lables, wavy_datas,diagram_lables,diagram_datas]) => {
       let wavyGraph = document.getElementById('wavesGraph').getContext('2d');
 
       const gradient = wavyGraph.createLinearGradient(0, 0, 0, 400);
@@ -301,9 +261,58 @@ display:false,
         },
         }});
 
+    // Doughnut Chart
+    
+    const initialHoverOffset = 4;
 
+    const doughnutData = {
+        labels: [],
+        datasets: [{
+            label: [],
+            data: diagram_datas,
+            backgroundColor: [
+                '#ffc400',
+                '#38a4dd',
+                '#b39ddb'
+            ],
+            hoverOffset: initialHoverOffset
+        }]
+    };
 
+    const doughnutOptions = {
+        legend:{
+display:false,
+        },
+        onClick: function (event, elements) {
+            if (elements.length > 0) {
+                const clickedElement = elements[0];
+                const datasetIndex = clickedElement.datasetIndex;
+                const index = clickedElement.index;
 
+                // Move the clicked piece to the side (e.g., increase the hoverOffset)
+                doughnutConfig.data.datasets[datasetIndex].hoverOffset = 30;
+
+                // Redraw the chart
+                doughnutChart.update();
+            }
+        }
+    };
+
+    const doughnutConfig = {
+        type: 'doughnut',
+        data: doughnutData,
+        options: doughnutOptions
+    };
+
+    let doughnutChart = new Chart(document.getElementById('doughnutChart').getContext('2d'), doughnutConfig);
+
+    let graphLabel1 = document.getElementById("graphLabel");
+
+    //graphLabel.innerText = datata.datasets[0].needleValue + '/10';
+    graphLabel.innerHTML = `${data.diagram_datas[2]}<span style="color: black; font-size: 70%; font-weight: normal;"></span>`;
+
+    // graphLabel.fontSize = '38px'
+    graphLabel.style.fontWeight = 'bold';
 
 })
 async function getData() {
