@@ -44,60 +44,7 @@ display:false,
     let doughnutChart = new Chart(document.getElementById('doughnutChart').getContext('2d'), doughnutConfig);
 
     // Area  Chart
-    let wavyGraph = document.getElementById('wavesGraph').getContext('2d');
-
-  const gradient = wavyGraph.createLinearGradient(0, 0, 0, 400);
-  gradient.addColorStop(0, 'white');
-  gradient.addColorStop(1, '#4cb7ff');
-
-
-  const wavyChart = new Chart(wavyGraph, {
-    type: 'line',
-    data: {
-      labels: ['','JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN',''],
-      datasets: [{
-        borderColor: 'rgba(0,0,0,0)',   
-        backgroundColor: gradient, // Background color with transparency
-        label: 'Active Users',
-        tension: 0.4,
-        display: false,
-       
-        fill: true,
-        data: [32, 34, 31, 27, 30, 36, 40,37, 32],
-        pointRadius: 5,
-        pointBackgroundColor: 'rgba(0,0,0,0)',
-        pointHoverBackgroundColor: '#00c4ff',
-        pointHoverRadius: 8, 
-        pointHoverBorderColor:' #cceaff',     // Point radius on hover
-        pointHoverBorderWidth:3,
-      }]
-    },
-    options: {
-        scales: {
-            y: {
-              ticks: {
-                // Include a dollar sign in the ticks
-                callback: function (value, index, ticks) {
-                  return value + "k";
-                },
-                stepSize:10,
-              },
-              min:0,
-              max:70,
-            }
-          },
-      responsive: true,
-      maintainAspectRatio: false,
-      tooltips: {
-        enabled: true // Enable tooltips to display data on hover
-      },
-      plugins:{
-      legend: {
-        display: false,
-      },
-    },
-    }
-  });
+ 
   //Purple graphs
 
   const labels = ['1', '2', '3', '4', '5', '6', '7','8'];
@@ -269,4 +216,99 @@ display:false,
  
    // Initialize the chart with the provided data and options
    let greenGraph = new Chart(document.getElementById('greenGraph').getContext('2d'), config1);
+
+   //AJAX
+   const fetchData = () => {
+    return new Promise((resolve, reject) => {
+      const xmlhttp = new XMLHttpRequest();
+      const url = '/json/data.json';
+  
+      xmlhttp.open("GET", url, true);
+      xmlhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          const data = JSON.parse(this.responseText);
+          const wavy_lables = data.wavy.map(function(index) {return index.month})
+          const wavy_datas= data.wavy.map(function(index) {return index.number1})
+        //   const label_month = data.datas3.map(function(index) {return index.month})
+        //   const data_set1 = data.datas3.map(function(index) {return index.number1})
+        //   const data_set2 = data.datas3.map(function(index) {return index.number2})
+        //   const data_set3 = data.datas3.map(function(index) {return index.number3})
+        
+          resolve([wavy_lables, wavy_datas]);
+        }
+      };
+      xmlhttp.send();
+    });
+  };
+  fetchData().then(([wavy_lables, wavy_datas]) => {
+      let wavyGraph = document.getElementById('wavesGraph').getContext('2d');
+
+      const gradient = wavyGraph.createLinearGradient(0, 0, 0, 400);
+      gradient.addColorStop(0, 'white');
+      gradient.addColorStop(1, '#4cb7ff');
+    
+    
+      const wavyChart = new Chart(wavyGraph, {
+        type: 'line',
+        data: {
+
+
+
+
+
+
+          labels:wavy_lables,
+          datasets: [{
+            borderColor: 'rgba(0,0,0,0)',   
+            backgroundColor: gradient, // Background color with transparency
+            label: 'Active Users',
+            tension: 0.4,
+            display: false,
+           
+            fill: true,
+            data:wavy_datas,
+            pointRadius: 5,
+            pointBackgroundColor: 'rgba(0,0,0,0)',
+            pointHoverBackgroundColor: '#00c4ff',
+            pointHoverRadius: 8, 
+            pointHoverBorderColor:' #cceaff',     // Point radius on hover
+            pointHoverBorderWidth:3,
+          }]
+        },
+        options: {
+            scales: {
+                y: {
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function (value, index, ticks) {
+                      return value + "k";
+                    },
+                    stepSize:10,
+                  },
+                  min:0,
+                  max:70,
+                }
+              },
+          responsive: true,
+          maintainAspectRatio: false,
+          tooltips: {
+            enabled: true // Enable tooltips to display data on hover
+          },
+          plugins:{
+          legend: {
+            display: false,
+          },
+        },
+        }});
+
+
+
+
+
+})
+async function getData() {
+    const response = await fetch('/json/data.json'); 
+    const data = await response.json(); 
+    return data;
+   }
 }

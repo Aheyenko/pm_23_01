@@ -4,8 +4,10 @@ const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
 const cssnano = require('gulp-cssnano');
 const rename = require('gulp-rename');
-const uglify = require('gulp-uglify');
 const imagemin = require('gulp-imagemin');
+const jsonminify = require('gulp-jsonminify');
+//const uglify = require('gulp-uglify');
+const terser = require('gulp-terser');
 const browserSync = require('browser-sync').create();
 
 // Копіювання HTML файлів в папку dist
@@ -33,10 +35,9 @@ gulp.task('scssTask', function () {
 // Об'єднання і стиснення JS-файлів
 gulp.task('scripts', function () {
   return gulp.src("app/js/*.js")
+   // .pipe (uglify ())
     .pipe(concat('scripts.min.js'))
-    .pipe(uglify())
-    // .pipe(rename({ suffix: '.min' }))
-    
+    // .pipe(terser()) // Використовуємо gulp-terser для мініфікації
     .pipe(gulp.dest("dist/js"))
     .pipe(browserSync.stream());
 });
@@ -75,8 +76,15 @@ gulp.task('watch', function () {
   gulp.watch("app/js/*.js", gulp.series('scripts'));
   gulp.watch("app/images/*.{jpg,jpeg,png,gif}", gulp.series('imgs'));
   gulp.watch("dist").on('change', browserSync.reload);
+  gulp.watch("app/json/*.json", gulp.series('json'));
   
 });
 
+gulp.task('json', function () {
+  return gulp.src('./app/json/*.json')
+    .pipe(jsonminify())
+    .pipe(gulp.dest('./dist/json/'));
+});
+
 // Запуск тасків за замовчуванням
-gulp.task('default', gulp.series('html', 'scssTask', 'scripts', 'chart-js','imgs', 'watch'));
+gulp.task('default', gulp.series('html', 'scssTask', 'scripts', 'chart-js','imgs','json', 'watch'));
